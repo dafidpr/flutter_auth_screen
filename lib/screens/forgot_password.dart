@@ -10,8 +10,16 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  final _formKey = GlobalKey<FormState>();
-  bool? _checkboxVal = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void validateAndSave() {
+    final FormState? form = _formKey.currentState;
+    if (form!.validate()) {
+      Navigator.pushNamed(context, '/success-send-reset-password');
+    } else {
+      print('Form is invalid');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +50,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   hintText: 'Email',
                   icon: Icons.mail_outline,
                   obscureText: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
                 ),
                 CustomButton(
-                    text: 'Send Reset Link',
-                    onPressed: () {
-                      _formKey.currentState!.validate();
-                    }),
+                    text: 'Send Reset Link', onPressed: validateAndSave),
                 FlatButton(
                   onPressed: () => {Navigator.pushNamed(context, '/login')},
                   child: Text(

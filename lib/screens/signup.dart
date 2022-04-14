@@ -10,7 +10,17 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void validateAndSave() {
+    final FormState? form = _formKey.currentState;
+    if (form!.validate()) {
+      Navigator.pushNamed(context, '/success-signup');
+    } else {
+      print('Form is invalid');
+    }
+  }
+
   bool? _checkboxVal = false;
 
   @override
@@ -42,16 +52,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   hintText: 'Name',
                   icon: Icons.person_outline,
                   obscureText: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
                 ),
                 CustomInput(
                   hintText: 'Email',
                   icon: Icons.mail_outline,
                   obscureText: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
                 ),
                 CustomInput(
                   hintText: 'Password',
                   icon: Icons.lock_outline,
                   obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -78,10 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
                 CustomButton(
-                    text: 'Create Account',
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/success-signup');
-                    }),
+                    text: 'Create Account', onPressed: validateAndSave),
                 Text(
                   "Do you already have an account?",
                   style: GoogleFonts.montserrat(

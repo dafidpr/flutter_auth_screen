@@ -10,7 +10,17 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void validateAndSave() {
+    final FormState? form = _formKey.currentState;
+    if (form!.validate()) {
+      print('Form is valid');
+    } else {
+      print('Form is invalid');
+    }
+  }
+
   bool? _checkboxVal = false;
 
   @override
@@ -42,11 +52,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintText: 'Email',
                   icon: Icons.mail_outline,
                   obscureText: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
                 ),
                 CustomInput(
                   hintText: 'Password',
                   icon: Icons.lock_outline,
                   obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,7 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/forgot-password');
+                      },
                       child: Text(
                         'Forgot Password?',
                         style: GoogleFonts.nunito(
@@ -90,11 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                CustomButton(
-                    text: 'Sign In',
-                    onPressed: () {
-                      _formKey.currentState!.validate();
-                    }),
+                CustomButton(text: 'Sign In', onPressed: validateAndSave),
                 Text(
                   "Don't have an account?",
                   style: GoogleFonts.montserrat(

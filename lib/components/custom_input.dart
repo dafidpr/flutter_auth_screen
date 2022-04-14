@@ -26,7 +26,7 @@ class CustomInput extends StatelessWidget {
             color: Colors.black,
             blurRadius: 25,
             offset: Offset(0, 5),
-            spreadRadius: -25,
+            spreadRadius: -21,
           ),
         ],
       ),

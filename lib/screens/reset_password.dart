@@ -10,8 +10,16 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-  final _formKey = GlobalKey<FormState>();
-  bool? _checkboxVal = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void validateAndSave() {
+    final FormState? form = _formKey.currentState;
+    if (form!.validate()) {
+      Navigator.pushNamed(context, '/success-reset-password');
+    } else {
+      print('Form is invalid');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +50,28 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   hintText: 'Password',
                   icon: Icons.lock_outline,
                   obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
                 ),
                 CustomInput(
                   hintText: 'Confirm Password',
                   icon: Icons.lock_outline,
                   obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your confirm password';
+                    }
+                    return null;
+                  },
                 ),
                 CustomButton(
-                    text: 'Update Password',
-                    onPressed: () {
-                      _formKey.currentState!.validate();
-                    }),
+                  text: 'Update Password',
+                  onPressed: validateAndSave,
+                ),
               ],
             ),
           ),

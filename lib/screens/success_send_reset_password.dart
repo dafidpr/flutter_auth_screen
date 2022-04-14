@@ -53,9 +53,10 @@ class _SuccessSendResetPasswordState extends State<SuccessSendResetPassword> {
                 ),
               ),
               FlatButton(
-                onPressed: () => {Navigator.pushNamed(context, '/login')},
+                onPressed: () =>
+                    {Navigator.pushNamed(context, '/reset-password')},
                 child: Text(
-                  "BACK LOGIN",
+                  "RESET PASSWORD",
                   style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                       color: Color(0xFF008FFF),

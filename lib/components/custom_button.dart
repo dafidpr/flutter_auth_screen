@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
             ),
           ]),
       child: FlatButton(
-        onPressed: () => {onPressed},
+        onPressed: onPressed,
         padding: EdgeInsets.symmetric(vertical: 15),
         child: Text(
           text,
